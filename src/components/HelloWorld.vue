@@ -2,47 +2,44 @@
   <div id="app">
     <div class="container">
       <label for="inputa">Input A</label>
-      <input v-model.number="inputa" type="number">
+      <input v-model="form.inputa" type="number">
       <br>
       <label for="inputb">Input B</label>
-      <input v-model.number="inputb" type="number">
+      <input v-model="form.inputb" type="number">
     </div>
-    <input type="radio" v-model="operator" value="sum">sum
-    <input type="radio" v-model="operator" value="sub">sub
-    <input type="radio" v-model="operator" value="mul">mul
-    <input type="radio" v-model="operator" value="div">div
-    <br>
-    <button @click="calculating">calculate</button>
-    <p v-if="!!result || result===0">result = {{result}}</p>
-<!-- for loop -->
-    <ul>
-      <li v-for="(item, index) in items" :key="index">{{item.value}}</li>
-    </ul>
 
-    
+    <button @click="calculate">calculate</button>
+    <p v-if="!!form.result">result = {{form.result}}</p>
   </div>
 </template>
 
 <script>
-// import { calculate } from "../someFunction.js";
-import calculate from "../someFunction.js";
-
+// import HelloWorld from "./components/HelloWorld.vue";
+import { sum } from "../someFunction.js";
 export default {
   data() {
     return {
-      items: [{ value: "hello1" }, { value: "hello2" }, { value: "hello3" }, { value: "hello4" }, { value: "hello5" }],
-      operator: "",
-      inputa: "",
-      inputb: "",
-      result: ""
+      message: "",
+      form: {
+        //message: "hello message",
+        inputa: 0,
+        inputb: 0,
+        result: 0
+      }
     };
   },
+  computed:{},
   methods: {
-    calculating() {
-      // this.result= calculate({inputa: this.inputa, inputb: this.inputb, operator: this.operator});
-      this.result = calculate(this.inputa, this.inputb, this.operator);
-      this.items.push({value: this.result});
-
+    calculate() {
+      const {inputa, inputb} = this.form;
+      return this.form.result = sum(
+        // this.form.inputa,
+        // this.form.inputb
+        inputa,
+        inputb
+        // parseInt(this.form.inputa),
+        // parseInt(this.form.inputb)
+      );
     }
   }
 };
